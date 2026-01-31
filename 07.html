@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目5「紧急自动车等优先」答题页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            padding: 20px 30px;
+            background-color: #f9fafc;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .instructions p {
+            color: #546e7a;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box p {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+        
+        .questions-container {
+            padding: 25px 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .question-item {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #f9fafc;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .question-item.answered {
+            border-left: 5px solid #4b6cb7;
+        }
+        
+        .question-item.correct-answer {
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .question-item.incorrect-answer {
+            border-left: 5px solid #f44336;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background-color: #4b6cb7;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .question-item.correct-answer .question-number {
+            background-color: #4CAF50;
+        }
+        
+        .question-item.incorrect-answer .question-number {
+            background-color: #f44336;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover:not(.disabled) {
+            background-color: #f0f4ff;
+            border-color: #4b6cb7;
+        }
+        
+        .option.selected {
+            background-color: #e8f0ff;
+            border-color: #4b6cb7;
+            box-shadow: 0 2px 5px rgba(75, 108, 183, 0.15);
+        }
+        
+        .option.correct {
+            background-color: #e8f5e9;
+            border-color: #4CAF50;
+        }
+        
+        .option.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .option-label {
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .explanation {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #4b6cb7;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .explanation-content {
+            color: #546e7a;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .result-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .correct-icon {
+            color: #4CAF50;
+        }
+        
+        .incorrect-icon {
+            color: #f44336;
+        }
+        
+        .progress-container {
+            padding: 20px 30px;
+            border-top: 1px solid #eaeaea;
+            background-color: #f9fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .progress-text {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .score-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4b6cb7;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            width: 200px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            box-shadow: 0 4px 10px rgba(75, 108, 183, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(75, 108, 183, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            border-top: 1px solid #eaeaea;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .progress-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>项目5「紧急自动车等优先」</h1>
+            <div class="subtitle">请根据日本交通规则判断以下题目是否正确</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>测验说明</h3>
+            <p>本测验包含10道关于紧急自动车优先规则的选择题，请仔细阅读每道题目，判断其描述是否正确。</p>
+            <p>选择答案后会立即显示正确答案和详细解释。</p>
+            
+            <div class="warning-box">
+                <p><strong>重要规则：</strong>※ 此问题集如果有5个正确答案，则需要从新上课。您可以参考教科书的内容，以全文正解为目标。</p>
+            </div>
+        </div>
+        
+        <div class="questions-container">
+            <h2 class="section-title">答题区域</h2>
+            
+            <!-- 题目1 -->
+            <div class="question-item" id="question1">
+                <div class="question-number">1</div>
+                <div class="question-text">在十字路口附近行走中，由于紧急自动车接近，躲开十字路口，靠道路的左侧临时停车。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(1, 'correct')">
+                        <input type="radio" name="q1" id="q1-correct">
+                        <label class="option-label" for="q1-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(1, 'incorrect')">
+                        <input type="radio" name="q1" id="q1-incorrect">
+                        <label class="option-label" for="q1-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation1">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">在十字路口附近，尽量空出十字路口，靠道路的左侧临时停车。</div>
+                </div>
+            </div>
+            
+            <!-- 题目2 -->
+            <div class="question-item" id="question2">
+                <div class="question-number">2</div>
+                <div class="question-text">由于十字路口的附有紧急自动车靠近，靠在道路的左侧让路。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(2, 'correct')">
+                        <input type="radio" name="q2" id="q2-correct">
+                        <label class="option-label" for="q2-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(2, 'incorrect')">
+                        <input type="radio" name="q2" id="q2-incorrect">
+                        <label class="option-label" for="q2-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation2">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">在十字路口附近，必须临时停车。</div>
+                </div>
+            </div>
+            
+            <!-- 题目3 -->
+            <div class="question-item" id="question3">
+                <div class="question-number">3</div>
+                <div class="question-text">在十字路口或附近紧急自动车靠近的时候，必须避开十字路口靠左侧临时停车。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(3, 'correct')">
+                        <input type="radio" name="q3" id="q3-correct">
+                        <label class="option-label" for="q3-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(3, 'incorrect')">
+                        <input type="radio" name="q3" id="q3-incorrect">
+                        <label class="option-label" for="q3-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation3">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">跟设问问题相同。</div>
+                </div>
+            </div>
+            
+            <!-- 题目4 -->
+            <div class="question-item" id="question4">
+                <div class="question-number">4</div>
+                <div class="question-text">由于十字路口有紧急自动车靠近，靠在十字路口的一个角落让路。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(4, 'correct')">
+                        <input type="radio" name="q4" id="q4-correct">
+                        <label class="option-label" for="q4-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(4, 'incorrect')">
+                        <input type="radio" name="q4" id="q4-incorrect">
+                        <label class="option-label" for="q4-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation4">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">靠近道路的左侧。十字路口的前面或者后面可以，但是十字路口的角落不可以。并且，必须临时停车。</div>
+                </div>
+            </div>
+            
+            <!-- 题目5 -->
+            <div class="question-item" id="question5">
+                <div class="question-number">5</div>
+                <div class="question-text">十字路口通行中，由于紧急自动车接近，为了让路，虽然在十字路口内也停车了。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(5, 'correct')">
+                        <input type="radio" name="q5" id="q5-correct">
+                        <label class="option-label" for="q5-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(5, 'incorrect')">
+                        <input type="radio" name="q5" id="q5-incorrect">
+                        <label class="option-label" for="q5-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation5">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">必须让开十字路口。在十字路口内不能停止。</div>
+                </div>
+            </div>
+            
+            <!-- 题目6 -->
+            <div class="question-item" id="question6">
+                <div class="question-number">6</div>
+                <div class="question-text">在十字路口或者其附近行走中，紧急自动车接近的时候，必须避开十字路口靠路的左侧慢行让路。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(6, 'correct')">
+                        <input type="radio" name="q6" id="q6-correct">
+                        <label class="option-label" for="q6-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(6, 'incorrect')">
+                        <input type="radio" name="q6" id="q6-incorrect">
+                        <label class="option-label" for="q6-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation6">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">慢行不可以，一定要临时停车。</div>
+                </div>
+            </div>
+            
+            <!-- 题目7 -->
+            <div class="question-item" id="question7">
+                <div class="question-number">7</div>
+                <div class="question-text">附近没有十字路口的道路，给紧急自动车让路的时候，不一定必须临时停止，靠近道路的左侧就可以。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(7, 'correct')">
+                        <input type="radio" name="q7" id="q7-correct">
+                        <label class="option-label" for="q7-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(7, 'incorrect')">
+                        <input type="radio" name="q7" id="q7-incorrect">
+                        <label class="option-label" for="q7-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation7">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">跟设问问题一样，十字路口以外没有速度（减速，慢行等）规定。但是，根据情况对应，以安全的速度行驶是应尽的的义务。</div>
+                </div>
+            </div>
+            
+            <!-- 题目8 -->
+            <div class="question-item" id="question8">
+                <div class="question-number">8</div>
+                <div class="question-text">单行线的道路紧急自动车靠近的时候，靠近道路的左侧如果妨碍的话，靠近右侧让路也可以。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(8, 'correct')">
+                        <input type="radio" name="q8" id="q8-correct">
+                        <label class="option-label" for="q8-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(8, 'incorrect')">
+                        <input type="radio" name="q8" id="q8-incorrect">
+                        <label class="option-label" for="q8-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation8">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">靠近道路左侧如果妨碍交通的情况下，右侧有障碍物或者行人存在的话符合。</div>
+                </div>
+            </div>
+            
+            <!-- 题目9 -->
+            <div class="question-item" id="question9">
+                <div class="question-number">9</div>
+                <div class="question-text">在公共汽车站停车的公共汽车，虽然已经打了出发的转向信号灯，按喇叭在旁边通过了。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(9, 'correct')">
+                        <input type="radio" name="q9" id="q9-correct">
+                        <label class="option-label" for="q9-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(9, 'incorrect')">
+                        <input type="radio" name="q9" id="q9-incorrect">
+                        <label class="option-label" for="q9-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation9">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">由于时间的关系，不得妨碍在公共汽车站停留的公共汽车等出发。</div>
+                </div>
+            </div>
+            
+            <!-- 题目10 -->
+            <div class="question-item" id="question10">
+                <div class="question-number">10</div>
+                <div class="question-text">在公共汽车站出发的信号已发出并确认到了，但是提前快速鸣笛在其旁边通过。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(10, 'correct')">
+                        <input type="radio" name="q10" id="q10-correct">
+                        <label class="option-label" for="q10-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(10, 'incorrect')">
+                        <input type="radio" name="q10" id="q10-incorrect">
+                        <label class="option-label" for="q10-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation10">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">跟问题9的回答相同。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-info">
+                <div class="progress-text">答题进度: <span id="answered-count">0</span>/10</div>
+                <div class="score-text">得分: <span id="score-count">0</span>/10</div>
+                <div class="score-text">正确题数: <span id="correct-count">0</span>/10</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetAnswers()">重置答案</button>
+                <button class="btn btn-primary" id="submit-btn" onclick="submitAnswers()" disabled>提交测验</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>测验页面 | 项目5「紧急自动车等优先」 | 根据日本交通规则</p>
+        </div>
+    </div>
+    
+    <script>
+        // 存储用户答案
+        const userAnswers = {
+            1: null,
+            2: null,
+            3: null,
+            4: null,
+            5: null,
+            6: null,
+            7: null,
+            8: null,
+            9: null,
+            10: null
+        };
+        
+        // 正确答案（根据image027.png）
+        const correctAnswers = {
+            1: 'correct',
+            2: 'incorrect',
+            3: 'correct',
+            4: 'incorrect',
+            5: 'incorrect',
+            6: 'incorrect',
+            7: 'correct',
+            8: 'correct',
+            9: 'incorrect',
+            10: 'incorrect'
+        };
+        
+        // 题目解释（根据image027.png）
+        const explanations = {
+            1: '在十字路口附近，尽量空出十字路口，靠道路的左侧临时停车。',
+            2: '在十字路口附近，必须临时停车。',
+            3: '跟设问问题相同。',
+            4: '靠近道路的左侧。十字路口的前面或者后面可以，但是十字路口的角落不可以。并且，必须临时停车。',
+            5: '必须让开十字路口。在十字路口内不能停止。',
+            6: '慢行不可以，一定要临时停车。',
+            7: '跟设问问题一样，十字路口以外没有速度（减速，慢行等）规定。但是，根据情况对应，以安全的速度行驶是应尽的的义务。',
+            8: '靠近道路左侧如果妨碍交通的情况下，右侧有障碍物或者行人存在的话符合。',
+            9: '由于时间的关系，不得妨碍在公共汽车站停留的公共汽车等出发。',
+            10: '跟问题9的回答相同。'
+        };
+        
+        // 选择答案
+        function selectOption(questionNum, answer) {
+            // 如果已经回答了，不允许更改
+            if (userAnswers[questionNum] !== null) return;
+            
+            // 更新用户答案
+            userAnswers[questionNum] = answer;
+            
+            // 更新UI
+            const questionElement = document.getElementById(`question${questionNum}`);
+            const options = questionElement.querySelectorAll('.option');
+            
+            // 禁用所有选项
+            options.forEach(option => {
+                option.classList.add('disabled');
+                option.onclick = null;
+            });
+            
+            // 选中的选项添加样式
+            const selectedOption = questionElement.querySelector(`[data-answer="${answer}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('selected');
+            }
+            
+            // 显示正确答案
+            const correctAnswer = correctAnswers[questionNum];
+            const correctOption = questionElement.querySelector(`[data-answer="${correctAnswer}"]`);
+            if (correctOption) {
+                correctOption.classList.add('correct');
+            }
+            
+            // 如果选错了，标记错误选项
+            if (answer !== correctAnswer) {
+                selectedOption.classList.add('incorrect');
+            }
+            
+            // 更新问题项样式
+            if (answer === correctAnswer) {
+                questionElement.classList.add('correct-answer');
+            } else {
+                questionElement.classList.add('incorrect-answer');
+            }
+            
+            // 显示解释
+            const explanationElement = document.getElementById(`explanation${questionNum}`);
+            explanationElement.classList.add('show');
+            
+            // 更新进度和得分
+            updateProgress();
+            updateScore();
+            
+            // 检查是否可以提交
+            checkSubmitButton();
+        }
+        
+        // 更新进度条和计数
+        function updateProgress() {
+            let answeredCount = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (userAnswers[i] !== null) {
+                    answeredCount++;
+                }
+            }
+            
+            document.getElementById('answered-count').textContent = answeredCount;
+            
+            const progressPercentage = (answeredCount / 10) * 100;
+            document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+        }
+        
+        // 更新得分
+        function updateScore() {
+            let score = 0;
+            let correctCount = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                    correctCount++;
+                }
+            }
+            
+            document.getElementById('score-count').textContent = score;
+            document.getElementById('correct-count').textContent = correctCount;
+        }
+        
+        // 检查是否可以提交
+        function checkSubmitButton() {
+            let allAnswered = true;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (userAnswers[i] === null) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = !allAnswered;
+        }
+        
+        // 重置所有答案
+        function resetAnswers() {
+            if (confirm('确定要重置所有答案吗？所有已回答的题目将被清除。')) {
+                // 重置答案数据
+                for (let i = 1; i <= 10; i++) {
+                    userAnswers[i] = null;
+                }
+                
+                // 重置UI
+                const questionElements = document.querySelectorAll('.question-item');
+                questionElements.forEach(question => {
+                    question.classList.remove('answered', 'correct-answer', 'incorrect-answer');
+                    
+                    const options = question.querySelectorAll('.option');
+                    options.forEach(option => {
+                        option.classList.remove('selected', 'correct', 'incorrect', 'disabled');
+                        option.onclick = function() {
+                            const questionNum = parseInt(question.id.replace('question', ''));
+                            const answer = this.getAttribute('data-answer');
+                            selectOption(questionNum, answer);
+                        };
+                        
+                        const radio = option.querySelector('input[type="radio"]');
+                        if (radio) radio.checked = false;
+                    });
+                    
+                    const explanation = question.querySelector('.explanation');
+                    if (explanation) {
+                        explanation.classList.remove('show');
+                    }
+                });
+                
+                // 更新进度和得分
+                updateProgress();
+                updateScore();
+                
+                // 禁用提交按钮
+                document.getElementById('submit-btn').disabled = true;
+            }
+        }
+        
+        // 提交答案
+        function submitAnswers() {
+            // 计算最终得分和正确题数
+            let score = 0;
+            let correctCount = 0;
+            
+            for (let i = 1; i <= 10; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                    correctCount++;
+                }
+            }
+            
+            // 计算正确率
+            const percentage = Math.round((score / 10) * 100);
+            
+            // 检查是否需要重新上课（5个正确答案）
+            const needRetake = correctCount >= 5;
+            
+            // 显示最终结果
+            const resultMessage = `您的得分: ${score}/10 (${percentage}%)\n正确题数: ${correctCount}\n\n`;
+            
+            if (needRetake) {
+                alert(resultMessage + '根据规则，有5个正确答案则需要从新上课。\n请参考教科书的内容，以全文正解为目标。');
+            } else {
+                if (score === 10) {
+                    alert(resultMessage + '完美！您答对了所有题目！');
+                } else if (score >= 8) {
+                    alert(resultMessage + '优秀！您对紧急自动车优先规则有很好的理解。');
+                } else if (score >= 6) {
+                    alert(resultMessage + '良好！建议复习一下不太熟悉的规则。');
+                } else {
+                    alert(resultMessage + '需要加强学习，建议重新学习紧急自动车优先规则。');
+                }
+            }
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为每个选项添加点击事件
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                const questionItem = option.closest('.question-item');
+                const questionNum = parseInt(questionItem.id.replace('question', ''));
+                const answer = option.getAttribute('data-answer');
+                
+                option.onclick = function() {
+                    selectOption(questionNum, answer);
+                };
+            });
+            
+            // 添加键盘快捷键支持
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+Enter 提交
+                if (e.ctrlKey && e.key === 'Enter') {
+                    const submitBtn = document.getElementById('submit-btn');
+                    if (!submitBtn.disabled) {
+                        submitAnswers();
+                    }
+                }
+                
+                // Esc 重置
+                if (e.key === 'Escape') {
+                    resetAnswers();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目2《遵守信号》判断题测试 - 第2页</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .project-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+        
+        .page-info {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #bdc3c7;
+        }
+        
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 30px;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .warning-box p {
+            margin: 0;
+            color: #856404;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        .question-container {
+            padding: 0 30px 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .question {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #eaeaea;
+            transition: all 0.3s ease;
+        }
+        
+        .question:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .answer-options {
+            display: flex;
+            margin-bottom: 20px;
+            margin-left: 44px;
+        }
+        
+        .answer-btn {
+            padding: 10px 25px;
+            border: 2px solid #ddd;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s;
+            margin-right: 15px;
+        }
+        
+        .answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .answer-btn.true:hover {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+        
+        .answer-btn.false:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        
+        .answer-btn.selected-true {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .answer-btn.selected-false {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        .answer-feedback {
+            margin-left: 44px;
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .answer-feedback.show {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .feedback-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 10px;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .correct-icon {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .wrong-icon {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .feedback-text {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .correct-text {
+            color: #27ae60;
+        }
+        
+        .wrong-text {
+            color: #e74c3c;
+        }
+        
+        .explanation {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            margin-top: 8px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 30px 0;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .submit-btn, .reset-btn {
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .reset-btn {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .reset-btn:hover {
+            background-color: #d5dbdb;
+            transform: translateY(-2px);
+        }
+        
+        .result-container {
+            margin: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            background-color: #f8f9fa;
+            border: 2px solid #3498db;
+        }
+        
+        .result-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+        
+        .pass {
+            color: #27ae60;
+        }
+        
+        .fail {
+            color: #e74c3c;
+        }
+        
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            color: #555;
+        }
+        
+        .pass-requirements {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        
+        .progress-info {
+            margin: 0 30px 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: right;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 30px 20px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #d5dbdb;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0;
+            }
+            
+            header, .warning-box, .question-container, .actions, .result-container, .progress-info, .navigation {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            
+            .answer-options {
+                flex-direction: column;
+                margin-left: 0;
+            }
+            
+            .answer-btn {
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            
+            .answer-feedback {
+                margin-left: 0;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .submit-btn, .reset-btn {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>交通安全教育测试</h1>
+            <div class="project-title">项目2《遵守信号》</div>
+            <div class="page-info">第2页（题目10-19）</div>
+        </header>
+        
+        <div class="warning-box">
+            <p>※ 此问题集如果有5个不正确答案，则需要重新上课，您可以参考教科书的内容，以全文正解为目标。</p>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="prevPageBtn">← 返回第1页</button>
+            <button class="nav-btn" id="nextPageBtn">第3页 →</button>
+        </div>
+        
+        <div class="progress-info">
+            已完成: <span id="answeredCount">0</span>/10 题
+        </div>
+        
+        <div class="question-container">
+            <h2 class="section-title">判断题（请选择正确或错误）</h2>
+            <div id="questions">
+                <!-- 问题将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="submit-btn" id="submitBtn">提交答案</button>
+            <button class="reset-btn" id="resetBtn">重新答题</button>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <div class="result-title">测试结果</div>
+            <div class="score" id="scoreDisplay">0/10</div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="pass-requirements">※ 提示：错误少于5题（答对6题以上）为通过</div>
+            <button class="reset-btn" id="retryBtn" style="margin-top: 20px;">重新测试</button>
+        </div>
+    </div>
+
+    <script>
+        // 第二页题目数据
+        const questions = [
+            {
+                id: 10,
+                text: "前方是红色的闪烁信号灯的汽车或者有轨电车，在停止位置临时停止，安全确认后可以继续前行。",
+                answer: true,
+                explanation: "正如提问问题那样，与问题10的回答相同。"
+            },
+            {
+                id: 11,
+                text: "步行者专用信号的绿灯闪烁信号表示的时候，如果没有车辆通过，步行者可以开始通过。",
+                answer: false,
+                explanation: "步行者专用信号的绿灯闪烁的时候，与黄灯的意思相同。步行者不能开始通过。"
+            },
+            {
+                id: 12,
+                text: "如右图所示，警察官的手势信号，对于箭头的方向而言两者意思相同。",
+                answer: true,
+                explanation: "对于前方有警察官的（从正面，背后进行的）车辆，警察官什么样的姿势都跟红灯意思相同。"
+            },
+            {
+                id: 13,
+                text: "如右图所示，根据警察官的灯火信号，对于箭头的方向，跟信号灯的红灯的意思相同。",
+                answer: true,
+                explanation: "与问题13回答相同。"
+            },
+            {
+                id: 14,
+                text: "警察官根据手势信号，在交叉点两腿在侧面水平向上的时候，对面车辆必须在停止线停止。",
+                answer: true,
+                explanation: "与问题13回答相同。但是，必须在停止位置停止。"
+            },
+            {
+                id: 15,
+                text: "关于交叉路口，交通整顿中的警察官的胳膊垂直向上举同时，对于警察官的身体的正面平行的方向的交通，跟黄灯的意思相同。",
+                answer: false,
+                explanation: "警察官手腕垂直向上举起的时候，与警察官的身体的正面平行方向的交通（警察官面向侧面），跟黄灯意思相同。"
+            },
+            {
+                id: 16,
+                text: "夜间，根据交通整顿中的警察官的灯火信号，灯火在身体前左右摆动的时候，对于灯火摆动的方向的交通，跟信号灯的绿灯的意思相同。",
+                answer: true,
+                explanation: "警察官的指示棒在身体前方左右摆动的时候，对于指示棒的灯火被摆动的方向的交通，跟绿灯意思相同。"
+            },
+            {
+                id: 17,
+                text: "有右图标识板的地方，前方的信号是红色或者黄色，可以在注意步行者以及周围的交通情况的同时左转。",
+                answer: true,
+                explanation: "这是「可左转」的标示板。向绿色箭头信号的图形一样，可以左转。"
+            },
+            {
+                id: 18,
+                text: "有右图的标识的地方，前方的信号是红色或者黄色，可以在注意步行者以及周围的交通情况的同时左转向。",
+                answer: false,
+                explanation: "这是「单行线」的标识。红灯或黄灯的时候，不能前进。"
+            },
+            {
+                id: 19,
+                text: "在实行交通整理的交叉路口的信号灯，不管前方的信号灯是红色还是黄色，警察官的手势信号有前进指示的时候，要遵从警察官的手势信号。",
+                answer: true,
+                explanation: "警察官实行手势信号的时候，是在事故灾害等非常时期实行，所以不按照机器，而是必须要遵守手势信号。"
+            }
+        ];
+        
+        // 当前用户答案和答题状态
+        let userAnswers = new Array(questions.length).fill(null);
+        let answeredCount = 0;
+        
+        // 初始化页面
+        function initializePage() {
+            initializeQuestions();
+            updateProgress();
+        }
+        
+        // 初始化问题部分
+        function initializeQuestions() {
+            const container = document.getElementById('questions');
+            container.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                questionElement.id = `question-${question.id}`;
+                
+                questionElement.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">${question.id}</div>
+                        <div class="question-text">${question.text}</div>
+                    </div>
+                    <div class="answer-options">
+                        <button class="answer-btn true" data-id="${question.id}" data-answer="true">正确</button>
+                        <button class="answer-btn false" data-id="${question.id}" data-answer="false">错误</button>
+                    </div>
+                    <div class="answer-feedback" id="feedback-${question.id}">
+                        <!-- 反馈内容将通过JavaScript动态生成 -->
+                    </div>
+                `;
+                
+                container.appendChild(questionElement);
+                
+                // 为选项按钮添加事件监听
+                const trueBtn = questionElement.querySelector('.answer-btn.true');
+                const falseBtn = questionElement.querySelector('.answer-btn.false');
+                
+                trueBtn.addEventListener('click', () => selectAnswer(question.id, true));
+                falseBtn.addEventListener('click', () => selectAnswer(question.id, false));
+            });
+        }
+        
+        // 选择答案
+        function selectAnswer(questionId, userAnswer) {
+            const questionIndex = questions.findIndex(q => q.id === questionId);
+            const question = questions[questionIndex];
+            const correctAnswer = question.answer;
+            
+            // 保存用户答案
+            if (userAnswers[questionIndex] === null) {
+                answeredCount++;
+                updateProgress();
+            }
+            userAnswers[questionIndex] = userAnswer;
+            
+            // 更新按钮样式
+            const trueBtn = document.querySelector(`.answer-btn.true[data-id="${questionId}"]`);
+            const falseBtn = document.querySelector(`.answer-btn.false[data-id="${questionId}"]`);
+            
+            // 重置所有按钮样式
+            trueBtn.classList.remove('selected-true');
+            falseBtn.classList.remove('selected-false');
+            
+            // 设置选中按钮样式
+            if (userAnswer) {
+                trueBtn.classList.add('selected-true');
+            } else {
+                falseBtn.classList.add('selected-false');
+            }
+            
+            // 禁用所有按钮
+            trueBtn.disabled = true;
+            falseBtn.disabled = true;
+            
+            // 显示正确答案和解释
+            showFeedback(questionId, userAnswer, correctAnswer, question.explanation);
+        }
+        
+        // 显示反馈
+        function showFeedback(questionId, userAnswer, correctAnswer, explanation) {
+            const feedbackElement = document.getElementById(`feedback-${questionId}`);
+            const isCorrect = userAnswer === correctAnswer;
+            
+            const feedbackIcon = isCorrect ? 
+                '<span class="feedback-icon correct-icon">✓</span>' : 
+                '<span class="feedback-icon wrong-icon">✗</span>';
+            
+            const feedbackText = isCorrect ? 
+                '<span class="feedback-text correct-text">回答正确！正确答案是：' + (correctAnswer ? '正确' : '错误') + '</span>' :
+                '<span class="feedback-text wrong-text">回答错误！正确答案是：' + (correctAnswer ? '正确' : '错误') + '</span>';
+            
+            feedbackElement.innerHTML = `
+                <div class="feedback-header">
+                    ${feedbackIcon}
+                    ${feedbackText}
+                </div>
+                <div class="explanation">
+                    <strong>解释：</strong>${explanation}
+                </div>
+            `;
+            
+            feedbackElement.classList.add('show');
+        }
+        
+        // 更新进度
+        function updateProgress() {
+            document.getElementById('answeredCount').textContent = answeredCount;
+        }
+        
+        // 提交答案
+        function submitAnswers() {
+            // 检查是否所有题目都已回答
+            const unanswered = userAnswers.filter(answer => answer === null).length;
+            
+            if (unanswered > 0) {
+                alert(`您还有 ${unanswered} 道题目未回答，请完成所有题目后再提交。`);
+                return;
+            }
+            
+            // 计算得分
+            let correctCount = 0;
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.answer) {
+                    correctCount++;
+                }
+            });
+            
+            const score = correctCount;
+            const totalQuestions = questions.length;
+            const isPass = score >= 6; // 错误少于5个即通过（正确≥6个）
+            
+            // 显示结果
+            const resultContainer = document.getElementById('resultContainer');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            scoreDisplay.textContent = `${score}/${totalQuestions}`;
+            scoreDisplay.className = `score ${isPass ? 'pass' : 'fail'}`;
+            
+            if (isPass) {
+                resultMessage.innerHTML = `恭喜！您答对了${score}题，错误${totalQuestions-score}题，通过了测试。`;
+            } else {
+                resultMessage.innerHTML = `您答对了${score}题，错误${totalQuestions-score}题，错误超过5题，需要重新上课学习。`;
+            }
+            
+            resultContainer.style.display = 'block';
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 重置答案
+        function resetAnswers() {
+            userAnswers = new Array(questions.length).fill(null);
+            answeredCount = 0;
+            
+            // 重置按钮样式和状态
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.classList.remove('selected-true', 'selected-false');
+                btn.disabled = false;
+            });
+            
+            // 隐藏反馈
+            document.querySelectorAll('.answer-feedback').forEach(feedback => {
+                feedback.classList.remove('show');
+                feedback.innerHTML = '';
+            });
+            
+            // 更新进度
+            updateProgress();
+            
+            // 隐藏结果
+            document.getElementById('resultContainer').style.display = 'none';
+            
+            // 滚动到顶部
+            document.querySelector('.question-container').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 导航功能
+        document.getElementById('prevPageBtn').addEventListener('click', function() {
+            alert('第1页已保存在本地文件中，请打开第一页的HTML文件。');
+        });
+        
+        document.getElementById('nextPageBtn').addEventListener('click', function() {
+            alert('第3页尚未生成，请继续提供第3页的题目和解释。');
+        });
+        
+        // 事件监听
+        document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+        document.getElementById('resetBtn').addEventListener('click', resetAnswers);
+        document.getElementById('retryBtn').addEventListener('click', resetAnswers);
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>

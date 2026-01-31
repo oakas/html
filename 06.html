@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目4「汽车通行的场所，汽车不可以通行的场所」（第二部分）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            padding: 20px 30px;
+            background-color: #f9fafc;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .instructions p {
+            color: #546e7a;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box p {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+        
+        .questions-container {
+            padding: 25px 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .question-item {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #f9fafc;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .question-item.answered {
+            border-left: 5px solid #4b6cb7;
+        }
+        
+        .question-item.correct-answer {
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .question-item.incorrect-answer {
+            border-left: 5px solid #f44336;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background-color: #4b6cb7;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .question-item.correct-answer .question-number {
+            background-color: #4CAF50;
+        }
+        
+        .question-item.incorrect-answer .question-number {
+            background-color: #f44336;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            font-size: 17px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover:not(.disabled) {
+            background-color: #f0f4ff;
+            border-color: #4b6cb7;
+        }
+        
+        .option.selected {
+            background-color: #e8f0ff;
+            border-color: #4b6cb7;
+            box-shadow: 0 2px 5px rgba(75, 108, 183, 0.15);
+        }
+        
+        .option.correct {
+            background-color: #e8f5e9;
+            border-color: #4CAF50;
+        }
+        
+        .option.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .option-label {
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .explanation {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #4b6cb7;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .explanation-content {
+            color: #546e7a;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .result-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .correct-icon {
+            color: #4CAF50;
+        }
+        
+        .incorrect-icon {
+            color: #f44336;
+        }
+        
+        .progress-container {
+            padding: 20px 30px;
+            border-top: 1px solid #eaeaea;
+            background-color: #f9fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .progress-text {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .score-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4b6cb7;
+        }
+        
+        .incorrect-text {
+            font-size: 16px;
+            color: #f44336;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            width: 200px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            box-shadow: 0 4px 10px rgba(75, 108, 183, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(75, 108, 183, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            border-top: 1px solid #eaeaea;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .progress-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>项目4「汽车通行的场所，汽车不可以通行的场所」（第二部分）</h1>
+            <div class="subtitle">请根据日本交通规则判断以下题目是否正确</div>
+        </div>
+        
+        <div class="instructions">
+            <h3>测验说明</h3>
+            <p>本测验包含7道关于汽车通行规则的选择题，请仔细阅读每道题目，判断其描述是否正确。</p>
+            <p>选择答案后会立即显示正确答案和详细解释。</p>
+            
+            <div class="warning-box">
+                <p><strong>重要规则：</strong>此问题集如果有5个不正确答案，则需要从新上课。请参考教科书的内容，以全文正解为目标。</p>
+            </div>
+        </div>
+        
+        <div class="questions-container">
+            <h2 class="section-title">答题区域（第11-17题）</h2>
+            
+            <!-- 题目11 -->
+            <div class="question-item" id="question11">
+                <div class="question-number">11</div>
+                <div class="question-text">同一方向三车道的时候，最右侧车道为超车车道空出来，速度慢的车辆在左车道，按照车速的顺序依次在右侧车道通行。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(11, 'correct')">
+                        <input type="radio" name="q11" id="q11-correct">
+                        <label class="option-label" for="q11-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(11, 'incorrect')">
+                        <input type="radio" name="q11" id="q11-incorrect">
+                        <label class="option-label" for="q11-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation11">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">跟设问问题相同。</div>
+                </div>
+            </div>
+            
+            <!-- 题目12 -->
+            <div class="question-item" id="question12">
+                <div class="question-number">12</div>
+                <div class="question-text">同一方向三车道的道路，普通汽车行驶的时候，从左边数第三个车道持续行走了。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(12, 'correct')">
+                        <input type="radio" name="q12" id="q12-correct">
+                        <label class="option-label" for="q12-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(12, 'incorrect')">
+                        <input type="radio" name="q12" id="q12-incorrect">
+                        <label class="option-label" for="q12-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation12">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">三车道通行的道路，最右侧车道，是超车或者右转的时候临时通行使用的。通常不能行驶。</div>
+                </div>
+            </div>
+            
+            <!-- 题目13 -->
+            <div class="question-item" id="question13">
+                <div class="question-number">13</div>
+                <div class="question-text">同一方向有三车道的情况下，轻型摩托车必须在最左侧的车辆通行带行走。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(13, 'correct')">
+                        <input type="radio" name="q13" id="q13-correct">
+                        <label class="option-label" for="q13-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(13, 'incorrect')">
+                        <input type="radio" name="q13" id="q13-incorrect">
+                        <label class="option-label" for="q13-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation13">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">跟设问问题相同。</div>
+                </div>
+            </div>
+            
+            <!-- 题目14 -->
+            <div class="question-item" id="question14">
+                <div class="question-number">14</div>
+                <div class="question-text">出入临路的场所，横穿马路的时候，如果有步行者，慢行通过。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(14, 'correct')">
+                        <input type="radio" name="q14" id="q14-correct">
+                        <label class="option-label" for="q14-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(14, 'incorrect')">
+                        <input type="radio" name="q14" id="q14-incorrect">
+                        <label class="option-label" for="q14-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation14">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">为了出入临路的场所，横穿路侧带的时候，跟行人有无无关，必须临时停止。</div>
+                </div>
+            </div>
+            
+            <!-- 题目15 -->
+            <div class="question-item" id="question15">
+                <div class="question-number">15</div>
+                <div class="question-text">在行人专用道路通行的汽车，只在有行人的时候，必须慢行。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(15, 'correct')">
+                        <input type="radio" name="q15" id="q15-correct">
+                        <label class="option-label" for="q15-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(15, 'incorrect')">
+                        <input type="radio" name="q15" id="q15-incorrect">
+                        <label class="option-label" for="q15-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation15">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">可以在行人专用道路通行的车辆，跟有无人无关，必须慢行。</div>
+                </div>
+            </div>
+            
+            <!-- 题目16 -->
+            <div class="question-item" id="question16">
+                <div class="question-number">16</div>
+                <div class="question-text">没有步道或路侧带的道路，在从路端 0.5 米以内的路肩小心行走也可以。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(16, 'correct')">
+                        <input type="radio" name="q16" id="q16-correct">
+                        <label class="option-label" for="q16-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(16, 'incorrect')">
+                        <input type="radio" name="q16" id="q16-incorrect">
+                        <label class="option-label" for="q16-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation16">
+                    <div class="explanation-title">正确答案：错误</div>
+                    <div class="explanation-content">从路段0.5米的地方以被称为路肩，为了防止道路的损坏，摩托车以外的车辆禁止通行。摩托车也要尽量不通行。</div>
+                </div>
+            </div>
+            
+            <!-- 题目17 -->
+            <div class="question-item" id="question17">
+                <div class="question-number">17</div>
+                <div class="question-text">前方十字路口的信号即是绿灯，由于堵车不能通过十字路口的时候，要在十字路口的前方停止线的位置停止，不能进入十字路口。</div>
+                <div class="options-container">
+                    <div class="option" data-answer="correct" onclick="selectOption(17, 'correct')">
+                        <input type="radio" name="q17" id="q17-correct">
+                        <label class="option-label" for="q17-correct">正确</label>
+                    </div>
+                    <div class="option" data-answer="incorrect" onclick="selectOption(17, 'incorrect')">
+                        <input type="radio" name="q17" id="q17-incorrect">
+                        <label class="option-label" for="q17-incorrect">错误</label>
+                    </div>
+                </div>
+                <div class="explanation" id="explanation17">
+                    <div class="explanation-title">正确答案：正确</div>
+                    <div class="explanation-content">设问的情况在十字路口内进退两难，会影响交叉路口的交通。所以要在停止线前面停止。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-info">
+                <div class="progress-text">答题进度: <span id="answered-count">0</span>/7</div>
+                <div class="score-text">得分: <span id="score-count">0</span>/7</div>
+                <div class="incorrect-text">错误题数: <span id="incorrect-count">0</span>/7</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetAnswers()">重置答案</button>
+                <button class="btn btn-primary" id="submit-btn" onclick="submitAnswers()" disabled>提交测验</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>测验页面 | 项目4「汽车通行的场所，汽车不可以通行的场所」（第二部分） | 根据日本交通规则</p>
+        </div>
+    </div>
+    
+    <script>
+        // 存储用户答案
+        const userAnswers = {
+            11: null,
+            12: null,
+            13: null,
+            14: null,
+            15: null,
+            16: null,
+            17: null
+        };
+        
+        // 正确答案（根据image023.png）
+        const correctAnswers = {
+            11: 'correct',
+            12: 'incorrect',
+            13: 'correct',
+            14: 'incorrect',
+            15: 'incorrect',
+            16: 'incorrect',
+            17: 'correct'
+        };
+        
+        // 题目解释（根据image023.png）
+        const explanations = {
+            11: '跟设问问题相同。',
+            12: '三车道通行的道路，最右侧车道，是超车或者右转的时候临时通行使用的。通常不能行驶。',
+            13: '跟设问问题相同。',
+            14: '为了出入临路的场所，横穿路侧带的时候，跟行人有无无关，必须临时停止。',
+            15: '可以在行人专用道路通行的车辆，跟有无人无关，必须慢行。',
+            16: '从路段0.5米的地方以被称为路肩，为了防止道路的损坏，摩托车以外的车辆禁止通行。摩托车也要尽量不通行。',
+            17: '设问的情况在十字路口内进退两难，会影响交叉路口的交通。所以要在停止线前面停止。'
+        };
+        
+        // 选择答案
+        function selectOption(questionNum, answer) {
+            // 如果已经回答了，不允许更改
+            if (userAnswers[questionNum] !== null) return;
+            
+            // 更新用户答案
+            userAnswers[questionNum] = answer;
+            
+            // 更新UI
+            const questionElement = document.getElementById(`question${questionNum}`);
+            const options = questionElement.querySelectorAll('.option');
+            
+            // 禁用所有选项
+            options.forEach(option => {
+                option.classList.add('disabled');
+                option.onclick = null;
+            });
+            
+            // 选中的选项添加样式
+            const selectedOption = questionElement.querySelector(`[data-answer="${answer}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('selected');
+            }
+            
+            // 显示正确答案
+            const correctAnswer = correctAnswers[questionNum];
+            const correctOption = questionElement.querySelector(`[data-answer="${correctAnswer}"]`);
+            if (correctOption) {
+                correctOption.classList.add('correct');
+            }
+            
+            // 如果选错了，标记错误选项
+            if (answer !== correctAnswer) {
+                selectedOption.classList.add('incorrect');
+            }
+            
+            // 更新问题项样式
+            if (answer === correctAnswer) {
+                questionElement.classList.add('correct-answer');
+            } else {
+                questionElement.classList.add('incorrect-answer');
+            }
+            
+            // 显示解释
+            const explanationElement = document.getElementById(`explanation${questionNum}`);
+            explanationElement.classList.add('show');
+            
+            // 更新进度、得分和错误计数
+            updateProgress();
+            updateScore();
+            
+            // 检查是否可以提交
+            checkSubmitButton();
+        }
+        
+        // 更新进度条和计数
+        function updateProgress() {
+            let answeredCount = 0;
+            
+            for (let i = 11; i <= 17; i++) {
+                if (userAnswers[i] !== null) {
+                    answeredCount++;
+                }
+            }
+            
+            document.getElementById('answered-count').textContent = answeredCount;
+            
+            const progressPercentage = (answeredCount / 7) * 100;
+            document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+        }
+        
+        // 更新得分和错误计数
+        function updateScore() {
+            let score = 0;
+            let incorrectCount = 0;
+            
+            for (let i = 11; i <= 17; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                } else if (userAnswers[i] !== null) {
+                    incorrectCount++;
+                }
+            }
+            
+            document.getElementById('score-count').textContent = score;
+            document.getElementById('incorrect-count').textContent = incorrectCount;
+        }
+        
+        // 检查是否可以提交
+        function checkSubmitButton() {
+            let allAnswered = true;
+            
+            for (let i = 11; i <= 17; i++) {
+                if (userAnswers[i] === null) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = !allAnswered;
+        }
+        
+        // 重置所有答案
+        function resetAnswers() {
+            if (confirm('确定要重置所有答案吗？所有已回答的题目将被清除。')) {
+                // 重置答案数据
+                for (let i = 11; i <= 17; i++) {
+                    userAnswers[i] = null;
+                }
+                
+                // 重置UI
+                const questionElements = document.querySelectorAll('.question-item');
+                questionElements.forEach(question => {
+                    question.classList.remove('answered', 'correct-answer', 'incorrect-answer');
+                    
+                    const options = question.querySelectorAll('.option');
+                    options.forEach(option => {
+                        option.classList.remove('selected', 'correct', 'incorrect', 'disabled');
+                        option.onclick = function() {
+                            const questionNum = parseInt(question.id.replace('question', ''));
+                            const answer = this.getAttribute('data-answer');
+                            selectOption(questionNum, answer);
+                        };
+                        
+                        const radio = option.querySelector('input[type="radio"]');
+                        if (radio) radio.checked = false;
+                    });
+                    
+                    const explanation = question.querySelector('.explanation');
+                    if (explanation) {
+                        explanation.classList.remove('show');
+                    }
+                });
+                
+                // 更新进度和得分
+                updateProgress();
+                updateScore();
+                
+                // 禁用提交按钮
+                document.getElementById('submit-btn').disabled = true;
+            }
+        }
+        
+        // 提交答案
+        function submitAnswers() {
+            // 计算最终得分和错误题数
+            let score = 0;
+            let incorrectCount = 0;
+            
+            for (let i = 11; i <= 17; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                } else {
+                    incorrectCount++;
+                }
+            }
+            
+            // 计算正确率
+            const percentage = Math.round((score / 7) * 100);
+            
+            // 检查是否需要重新上课（5个不正确答案）
+            const needRetake = incorrectCount >= 5;
+            
+            // 显示最终结果
+            const resultMessage = `您的得分: ${score}/7 (${percentage}%)\n错误题数: ${incorrectCount}\n\n`;
+            
+            if (needRetake) {
+                alert(resultMessage + '根据规则，有5个不正确答案则需要从新上课。\n请参考教科书的内容，以全文正解为目标。');
+            } else {
+                if (score === 7) {
+                    alert(resultMessage + '完美！您答对了所有题目！');
+                } else if (score >= 5) {
+                    alert(resultMessage + '良好！您对汽车通行规则有较好的理解。');
+                } else if (score >= 4) {
+                    alert(resultMessage + '合格！建议复习一下不太熟悉的规则。');
+                } else {
+                    alert(resultMessage + '需要加强学习，建议重新学习汽车通行规则。');
+                }
+            }
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为每个选项添加点击事件
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                const questionItem = option.closest('.question-item');
+                const questionNum = parseInt(questionItem.id.replace('question', ''));
+                const answer = option.getAttribute('data-answer');
+                
+                option.onclick = function() {
+                    selectOption(questionNum, answer);
+                };
+            });
+            
+            // 添加键盘快捷键支持
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+Enter 提交
+                if (e.ctrlKey && e.key === 'Enter') {
+                    const submitBtn = document.getElementById('submit-btn');
+                    if (!submitBtn.disabled) {
+                        submitAnswers();
+                    }
+                }
+                
+                // Esc 重置
+                if (e.key === 'Escape') {
+                    resetAnswers();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
