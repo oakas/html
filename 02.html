@@ -455,12 +455,14 @@
             {
                 id: 12,
                 text: "如右图所示，警察官的手势信号，对于箭头的方向而言两者意思相同。",
+                image: "02.12.png",
                 answer: true,
                 explanation: "对于前方有警察官的（从正面，背后进行的）车辆，警察官什么样的姿势都跟红灯意思相同。"
             },
             {
                 id: 13,
                 text: "如右图所示，根据警察官的灯火信号，对于箭头的方向，跟信号灯的红灯的意思相同。",
+                image: "02.13.png",
                 answer: true,
                 explanation: "与问题13回答相同。"
             },
@@ -473,6 +475,7 @@
             {
                 id: 15,
                 text: "关于交叉路口，交通整顿中的警察官的胳膊垂直向上举同时，对于警察官的身体的正面平行的方向的交通，跟黄灯的意思相同。",
+                image: "02.15.png",
                 answer: true,
                 explanation: "警察官手腕垂直向上举起的时候，与警察官的身体的正面平行方向的交通（警察官面向侧面），跟黄灯意思相同。"
             },
@@ -485,12 +488,14 @@
             {
                 id: 17,
                 text: "有右图标识板的地方，前方的信号是红色或者黄色，可以在注意步行者以及周围的交通情况的同时左转。",
+                image: "02.17.png",
                 answer: true,
                 explanation: "这是「可左转」的标示板。向绿色箭头信号的图形一样，可以左转。"
             },
             {
                 id: 18,
                 text: "有右图的标识的地方，前方的信号是红色或者黄色，可以在注意步行者以及周围的交通情况的同时左转向。",
+                image: "02.18.png",
                 answer: false,
                 explanation: "这是「单行线」的标识。红灯或黄灯的时候，不能前进。"
             },
@@ -522,11 +527,18 @@
                 questionElement.className = 'question';
                 questionElement.id = `question-${question.id}`;
                 
+                const imageHtml = question.image ? `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="第${question.id}题图示">
+                    </div>
+                ` : '';
+
                 questionElement.innerHTML = `
                     <div class="question-header">
                         <div class="question-number">${question.id}</div>
                         <div class="question-text">${question.text}</div>
                     </div>
+                    ${imageHtml}
                     <div class="answer-options">
                         <button class="answer-btn true" data-id="${question.id}" data-answer="true">正确</button>
                         <button class="answer-btn false" data-id="${question.id}" data-answer="false">错误</button>

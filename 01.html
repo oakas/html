@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
             padding: 0;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-        
+
         body {
             background-color: #f5f7fa;
             color: #333;
@@ -19,7 +19,7 @@
             padding: 20px;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -28,26 +28,26 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             overflow: hidden;
         }
-        
+
         header {
             background-color: #2c3e50;
             color: white;
             padding: 25px 30px;
             text-align: center;
         }
-        
+
         h1 {
             font-size: 28px;
             margin-bottom: 10px;
             color: white;
         }
-        
+
         .project-title {
             font-size: 22px;
             margin-bottom: 15px;
             color: #ecf0f1;
         }
-        
+
         .warning-box {
             background-color: #fff8e1;
             border-left: 4px solid #ffc107;
@@ -55,18 +55,18 @@
             margin: 20px 30px;
             border-radius: 0 6px 6px 0;
         }
-        
+
         .warning-box p {
             margin: 0;
             color: #856404;
             font-weight: 500;
             font-size: 15px;
         }
-        
+
         .question-container {
             padding: 0 30px 30px;
         }
-        
+
         .section-title {
             font-size: 20px;
             color: #2c3e50;
@@ -74,7 +74,7 @@
             padding-bottom: 10px;
             border-bottom: 2px solid #3498db;
         }
-        
+
         .question {
             background-color: #f8f9fa;
             border-radius: 8px;
@@ -83,17 +83,17 @@
             border: 1px solid #eaeaea;
             transition: all 0.3s ease;
         }
-        
+
         .question:hover {
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .question-header {
             display: flex;
             align-items: flex-start;
             margin-bottom: 15px;
         }
-        
+
         .question-number {
             display: inline-block;
             background-color: #3498db;
@@ -108,20 +108,31 @@
             font-size: 16px;
             flex-shrink: 0;
         }
-        
+
         .question-text {
             font-weight: 500;
             font-size: 16px;
             line-height: 1.5;
             flex-grow: 1;
         }
-        
+
+        .question-image {
+            margin: 0 44px 20px;
+        }
+
+        .question-image img {
+            width: 100%;
+            max-width: 360px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
         .answer-options {
             display: flex;
             margin-bottom: 20px;
             margin-left: 44px;
         }
-        
+
         .answer-btn {
             padding: 10px 25px;
             border: 2px solid #ddd;
@@ -133,34 +144,34 @@
             transition: all 0.2s;
             margin-right: 15px;
         }
-        
+
         .answer-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .answer-btn.true:hover {
             border-color: #27ae60;
             color: #27ae60;
         }
-        
+
         .answer-btn.false:hover {
             border-color: #e74c3c;
             color: #e74c3c;
         }
-        
+
         .answer-btn.selected-true {
             background-color: #27ae60;
             color: white;
             border-color: #27ae60;
         }
-        
+
         .answer-btn.selected-false {
             background-color: #e74c3c;
             color: white;
             border-color: #e74c3c;
         }
-        
+
         .answer-feedback {
             margin-left: 44px;
             padding: 15px;
@@ -170,22 +181,22 @@
             display: none;
             animation: fadeIn 0.5s ease;
         }
-        
+
         .answer-feedback.show {
             display: block;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         .feedback-header {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .feedback-icon {
             display: inline-block;
             width: 24px;
@@ -197,30 +208,30 @@
             font-weight: bold;
             font-size: 14px;
         }
-        
+
         .correct-icon {
             background-color: #27ae60;
             color: white;
         }
-        
+
         .wrong-icon {
             background-color: #e74c3c;
             color: white;
         }
-        
+
         .feedback-text {
             font-weight: 600;
             font-size: 16px;
         }
-        
+
         .correct-text {
             color: #27ae60;
         }
-        
+
         .wrong-text {
             color: #e74c3c;
         }
-        
+
         .explanation {
             color: #555;
             font-size: 14px;
@@ -231,7 +242,7 @@
             margin-top: 8px;
             border: 1px solid #eaeaea;
         }
-        
+
         .actions {
             display: flex;
             justify-content: space-between;
@@ -239,7 +250,7 @@
             padding-top: 20px;
             border-top: 1px solid #eaeaea;
         }
-        
+
         .submit-btn, .reset-btn {
             padding: 14px 30px;
             font-size: 16px;
@@ -249,28 +260,28 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .submit-btn {
             background-color: #3498db;
             color: white;
         }
-        
+
         .submit-btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
-        
+
         .reset-btn {
             background-color: #ecf0f1;
             color: #7f8c8d;
         }
-        
+
         .reset-btn:hover {
             background-color: #d5dbdb;
             transform: translateY(-2px);
         }
-        
+
         .result-container {
             margin: 30px;
             padding: 25px;
@@ -280,77 +291,77 @@
             background-color: #f8f9fa;
             border: 2px solid #3498db;
         }
-        
+
         .result-title {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 15px;
             color: #2c3e50;
         }
-        
+
         .score {
             font-size: 48px;
             font-weight: 800;
             margin: 20px 0;
         }
-        
+
         .pass {
             color: #27ae60;
         }
-        
+
         .fail {
             color: #e74c3c;
         }
-        
+
         .result-message {
             font-size: 18px;
             margin-bottom: 20px;
             padding: 0 20px;
             color: #555;
         }
-        
+
         .pass-requirements {
             font-size: 14px;
             color: #7f8c8d;
             margin-top: 10px;
         }
-        
+
         .progress-info {
             margin: 0 30px 20px;
             font-size: 14px;
             color: #7f8c8d;
             text-align: right;
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 0;
             }
-            
+
             header, .warning-box, .question-container, .actions, .result-container, .progress-info {
                 margin-left: 20px;
                 margin-right: 20px;
             }
-            
+
             .answer-options {
                 flex-direction: column;
                 margin-left: 0;
             }
-            
+
             .answer-btn {
                 margin-right: 0;
                 margin-bottom: 10px;
                 width: 100%;
             }
-            
+
             .answer-feedback {
                 margin-left: 0;
             }
-            
+
             .actions {
                 flex-direction: column;
             }
-            
+
             .submit-btn, .reset-btn {
                 width: 100%;
                 margin-bottom: 15px;
@@ -364,38 +375,37 @@
             <h1>交通安全教育测试</h1>
             <div class="project-title">项目2《遵守信号》</div>
         </header>
-        
+
         <div class="warning-box">
-            <p>※ 此问题集如果有5个不正确答案，则需要重新上课，您可以参考教科书的内容，以全文正解为目标。</p>
+            <p> 此问题集如果有5个不正确答案，则需要重新上课，您可以参考教科书的内容，以全文正解为目标。</p>
         </div>
-        
+
         <div class="progress-info">
             已完成: <span id="answeredCount">0</span>/10 题
         </div>
-        
+
         <div class="question-container">
             <h2 class="section-title">判断题（请选择正确或错误）</h2>
             <div id="questions">
                 <!-- 问题将通过JavaScript动态生成 -->
             </div>
         </div>
-        
+
         <div class="actions">
             <button class="submit-btn" id="submitBtn">提交答案</button>
             <button class="reset-btn" id="resetBtn">重新答题</button>
         </div>
-        
+
         <div class="result-container" id="resultContainer">
             <div class="result-title">测试结果</div>
             <div class="score" id="scoreDisplay">0/10</div>
             <div class="result-message" id="resultMessage"></div>
-            <div class="pass-requirements">※ 提示：错误少于5题（答对6题以上）为通过</div>
+            <div class="pass-requirements"> 提示：错误少于5题（答对6题以上）为通过</div>
             <button class="reset-btn" id="retryBtn" style="margin-top: 20px;">重新测试</button>
         </div>
     </div>
-            <a href="02.html" class="next-page-btn">下一页</a>
+    <a href="02.html" class="next-page-btn">下一页</a>
     <script>
-        // 完整的题目数据
         const questions = [
             {
                 id: 1,
@@ -418,8 +428,9 @@
             {
                 id: 4,
                 text: "绿灯箭头的信号，是路线巴士专用。路线巴士以外的车辆不可以按照箭头方向行驶。",
+                image: "01.04.png",
                 answer: false,
-                explanation: "绿色箭头的信号灯是针对自动车的信号灯。公共汽车专用的是右图的信号灯（请参照第23页）"
+                explanation: "绿色箭头的信号灯是针对普通汽车的信号灯。公共汽车专用的是另一类信号灯。"
             },
             {
                 id: 5,
@@ -430,6 +441,7 @@
             {
                 id: 6,
                 text: "前方是黄色箭头信号灯时行驶的汽车，注意其他交通的话，可以前进。",
+                image: "01.06.png",
                 answer: false,
                 explanation: "黄色箭头的信号灯，是有轨电车专用信号，普通汽车不能前进。"
             },
@@ -437,53 +449,57 @@
                 id: 7,
                 text: "交叉路口的信号黄灯闪烁的时候，必须慢行通过。",
                 answer: false,
-                explanation: "黄色闪烁信号灯是指，（注意其他交通前进），没有慢行等与速度相关的规定。但是，虽然没有法令规定，（根据状况以安全的速度行驶）是驾驶员的义务。（请参照第85页）"
+                explanation: "黄灯闪烁信号表示注意其他交通后可以通行，没有慢行的法定要求，但要根据情况安全行驶。"
             },
             {
                 id: 8,
                 text: "行驶方向的信号灯，黄灯闪烁的时候，必须临时停止后慢行。",
                 answer: false,
-                explanation: "跟问题7回答相同。"
+                explanation: "黄灯闪烁的通行规则与问题7相同，不要求临时停止后慢行，只要注意其他交通通行。"
             },
             {
                 id: 9,
                 text: "对面是黄色的闪烁信号灯的车辆，注意其他交通便可行进。",
                 answer: true,
-                explanation: "正如提问的那样。"
+                explanation: "正如问题所说，对面黄色闪烁信号灯的车辆可在注意其他交通后通行。"
             },
             {
                 id: 10,
                 text: "对面是红色闪烁信号灯的车辆，在停止位置临时停车，安全确认之后便可直行，但是不可以左右转弯。",
                 answer: false,
-                explanation: "红色闪烁信号是指，汽车在有临时停止的标识的交叉路口的通行方法相同。但是，不只是可以直行，左右转弯也可以。"
+                explanation: "红色闪烁信号与临时停车标志类似，确认安全后可以直行，也可以左右转弯。"
             }
         ];
-        
-        // 当前用户答案和答题状态
+
         let userAnswers = new Array(questions.length).fill(null);
         let answeredCount = 0;
-        
-        // 初始化页面
+
         function initializePage() {
             initializeQuestions();
             updateProgress();
         }
-        
-        // 初始化问题部分
+
         function initializeQuestions() {
             const container = document.getElementById('questions');
             container.innerHTML = '';
-            
-            questions.forEach((question, index) => {
+
+            questions.forEach((question) => {
                 const questionElement = document.createElement('div');
                 questionElement.className = 'question';
                 questionElement.id = `question-${question.id}`;
-                
+
+                const imageHtml = question.image ? `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="第四题图示">
+                    </div>
+                ` : '';
+
                 questionElement.innerHTML = `
                     <div class="question-header">
                         <div class="question-number">${question.id}</div>
                         <div class="question-text">${question.text}</div>
                     </div>
+                    ${imageHtml}
                     <div class="answer-options">
                         <button class="answer-btn true" data-id="${question.id}" data-answer="true">正确</button>
                         <button class="answer-btn false" data-id="${question.id}" data-answer="false">错误</button>
@@ -492,67 +508,58 @@
                         <!-- 反馈内容将通过JavaScript动态生成 -->
                     </div>
                 `;
-                
+
                 container.appendChild(questionElement);
-                
-                // 为选项按钮添加事件监听
+
                 const trueBtn = questionElement.querySelector('.answer-btn.true');
                 const falseBtn = questionElement.querySelector('.answer-btn.false');
-                
+
                 trueBtn.addEventListener('click', () => selectAnswer(question.id, true));
                 falseBtn.addEventListener('click', () => selectAnswer(question.id, false));
             });
         }
-        
-        // 选择答案
+
         function selectAnswer(questionId, userAnswer) {
             const questionIndex = questionId - 1;
             const question = questions[questionIndex];
             const correctAnswer = question.answer;
-            
-            // 保存用户答案
+
             if (userAnswers[questionIndex] === null) {
                 answeredCount++;
                 updateProgress();
             }
             userAnswers[questionIndex] = userAnswer;
-            
-            // 更新按钮样式
+
             const trueBtn = document.querySelector(`.answer-btn.true[data-id="${questionId}"]`);
             const falseBtn = document.querySelector(`.answer-btn.false[data-id="${questionId}"]`);
-            
-            // 重置所有按钮样式
+
             trueBtn.classList.remove('selected-true');
             falseBtn.classList.remove('selected-false');
-            
-            // 设置选中按钮样式
+
             if (userAnswer) {
                 trueBtn.classList.add('selected-true');
             } else {
                 falseBtn.classList.add('selected-false');
             }
-            
-            // 禁用所有按钮
+
             trueBtn.disabled = true;
             falseBtn.disabled = true;
-            
-            // 显示正确答案和解释
+
             showFeedback(questionId, userAnswer, correctAnswer, question.explanation);
         }
-        
-        // 显示反馈
+
         function showFeedback(questionId, userAnswer, correctAnswer, explanation) {
             const feedbackElement = document.getElementById(`feedback-${questionId}`);
             const isCorrect = userAnswer === correctAnswer;
-            
-            const feedbackIcon = isCorrect ? 
-                '<span class="feedback-icon correct-icon">✓</span>' : 
+
+            const feedbackIcon = isCorrect ?
+                '<span class="feedback-icon correct-icon">✓</span>' :
                 '<span class="feedback-icon wrong-icon">✗</span>';
-            
-            const feedbackText = isCorrect ? 
+
+            const feedbackText = isCorrect ?
                 '<span class="feedback-text correct-text">回答正确！正确答案是：' + (correctAnswer ? '正确' : '错误') + '</span>' :
                 '<span class="feedback-text wrong-text">回答错误！正确答案是：' + (correctAnswer ? '正确' : '错误') + '</span>';
-            
+
             feedbackElement.innerHTML = `
                 <div class="feedback-header">
                     ${feedbackIcon}
@@ -562,91 +569,73 @@
                     <strong>解释：</strong>${explanation}
                 </div>
             `;
-            
+
             feedbackElement.classList.add('show');
         }
-        
-        // 更新进度
+
         function updateProgress() {
             document.getElementById('answeredCount').textContent = answeredCount;
         }
-        
-        // 提交答案
+
         function submitAnswers() {
-            // 检查是否所有题目都已回答
             const unanswered = userAnswers.filter(answer => answer === null).length;
-            
             if (unanswered > 0) {
                 alert(`您还有 ${unanswered} 道题目未回答，请完成所有题目后再提交。`);
                 return;
             }
-            
-            // 计算得分
+
             let correctCount = 0;
             questions.forEach((question, index) => {
                 if (userAnswers[index] === question.answer) {
                     correctCount++;
                 }
             });
-            
+
             const score = correctCount;
             const totalQuestions = questions.length;
-            const isPass = score >= 6; // 错误少于5个即通过（正确≥6个）
-            
-            // 显示结果
+            const isPass = score >= 6;
+
             const resultContainer = document.getElementById('resultContainer');
             const scoreDisplay = document.getElementById('scoreDisplay');
             const resultMessage = document.getElementById('resultMessage');
-            
+
             scoreDisplay.textContent = `${score}/${totalQuestions}`;
             scoreDisplay.className = `score ${isPass ? 'pass' : 'fail'}`;
-            
+
             if (isPass) {
-                resultMessage.innerHTML = `恭喜！您答对了${score}题，错误${totalQuestions-score}题，通过了测试。`;
+                resultMessage.innerHTML = `恭喜！您答对了${score}题，错误${totalQuestions - score}题，通过了测试。`;
             } else {
-                resultMessage.innerHTML = `您答对了${score}题，错误${totalQuestions-score}题，错误超过5题，需要重新上课学习。`;
+                resultMessage.innerHTML = `您答对了${score}题，错误${totalQuestions - score}题，错误超过5题，需要重新上课学习。`;
             }
-            
+
             resultContainer.style.display = 'block';
             resultContainer.scrollIntoView({ behavior: 'smooth' });
         }
-        
-        // 重置答案
+
         function resetAnswers() {
             userAnswers = new Array(questions.length).fill(null);
             answeredCount = 0;
-            
-            // 重置按钮样式和状态
+
             document.querySelectorAll('.answer-btn').forEach(btn => {
                 btn.classList.remove('selected-true', 'selected-false');
                 btn.disabled = false;
             });
-            
-            // 隐藏反馈
+
             document.querySelectorAll('.answer-feedback').forEach(feedback => {
                 feedback.classList.remove('show');
                 feedback.innerHTML = '';
             });
-            
-            // 更新进度
+
             updateProgress();
-            
-            // 隐藏结果
             document.getElementById('resultContainer').style.display = 'none';
-            
-            // 滚动到顶部
             document.querySelector('.question-container').scrollIntoView({ behavior: 'smooth' });
         }
-        
-        // 事件监听
+
         document.getElementById('submitBtn').addEventListener('click', submitAnswers);
         document.getElementById('resetBtn').addEventListener('click', resetAnswers);
         document.getElementById('retryBtn').addEventListener('click', resetAnswers);
-        
-        // 初始化页面
+
         document.addEventListener('DOMContentLoaded', initializePage);
     </script>
 </body>
-
 </html>
-
