@@ -147,6 +147,17 @@
             margin-bottom: 20px;
             font-weight: 500;
         }
+
+        .question-image {
+            margin: 0 0 20px;
+        }
+
+        .question-image img {
+            width: 100%;
+            max-width: 360px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
         
         .options {
             display: flex;
@@ -496,6 +507,7 @@
             {
                 id: 14,
                 question: "此标识是指，表示在此前方有学校或幼儿园。",
+                image: "14.14.png",
                 options: ["正确", "错误"],
                 correctAnswer: 0, // 正确
                 explanation: "跟设问相同。顺便说明一下，人行横道的图标是右图。",
@@ -567,6 +579,11 @@
                     <div class="question-box" id="question-${item.id}">
                         <div class="question-number">问题 ${item.id}</div>
                         <div class="question-text">${item.question}</div>
+                        ${item.image ? `\
+                        <div class="question-image">\
+                            <img src="${item.image}" alt="问题 ${item.id} 图示">\
+                        </div>\
+                        ` : ''}
                         <div class="options">
                             ${item.options.map((option, optionIndex) => `
                                 <div class="option" onclick="selectAnswer(${index}, ${optionIndex})" id="option-${item.id}-${optionIndex}">
